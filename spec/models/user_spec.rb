@@ -145,6 +145,13 @@ describe User, '#voted_for_suggestion?' do
     suggestion = create(:suggestion)
     expect(user.voted_for_suggestion?(suggestion)).to be_false
   end
+  it 'returns false if the user voted and then unvoted for the suggestion' do
+    user = create(:user)
+    vote = create(:vote, voter: user, deleted_at: Time.zone.now)
+    suggestion = create(:suggestion)
+
+    expect(user.voted_for_suggestion?(suggestion)).to be_false
+  end
 end
 
 describe User, '#voted_for_event?' do

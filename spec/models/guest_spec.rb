@@ -100,38 +100,46 @@ describe Guest, '#image' do
 end
 
 describe Guest, '#vote_for_suggestion' do
-  it "returns the user's vote for the given suggestion if the user has one" do
-    user = create(:user)
-    vote = create(:vote, voter: user)
+  it "returns the guest's vote for the given suggestion if the guest has one" do
+    guest = create(:guest)
+    vote = create(:vote, voter: guest)
 
-    expect(user.vote_for_suggestion(vote.suggestion)).to eq vote
+    expect(guest.vote_for_suggestion(vote.suggestion)).to eq vote
   end
 
-  it 'returns nil if the user has not voted on the suggestion' do
-    user = create(:user)
+  it 'returns nil if the guest has not voted on the suggestion' do
+    guest = create(:guest)
     suggestion = create(:suggestion)
 
-    expect(user.vote_for_suggestion(suggestion)).to be_nil
+    expect(guest.vote_for_suggestion(suggestion)).to be_nil
   end
 end
 
 describe Guest, '#voted_for_suggestion?' do
-  it 'returns true if the user voted for the suggestion' do
-    user = create(:user)
-    vote = create(:vote, voter: user)
+  it 'returns true if the guest voted for the suggestion' do
+    guest = create(:guest)
+    vote = create(:vote, voter: guest)
 
-    expect(user.voted_for_suggestion?(vote.suggestion)).to be_true
+    expect(guest.voted_for_suggestion?(vote.suggestion)).to be_true
   end
 
-  it 'returns false if the user did not vote for the suggestion' do
-    user = create(:user)
+  it 'returns false if the guest did not vote for the suggestion' do
+    guest = create(:guest)
     suggestion = create(:suggestion)
 
-    expect(user.voted_for_suggestion?(suggestion)).to be_false
+    expect(guest.voted_for_suggestion?(suggestion)).to be_false
+  end
+
+  it 'returns false in the guest voted and then unvoted for the suggestion' do
+    guest = create(:guest)
+    vote = create(:vote, voter: guest, deleted_at: Time.zone.now)
+    suggestion = create(:suggestion)
+
+    expect(guest.voted_for_suggestion?(suggestion)).to be_false
   end
 end
 
-describe User, '#voted_for_event?' do
+describe Guest, '#voted_for_event?' do
   it 'returns true if the guest voted for the event' do
     guest = create(:guest)
     vote = create(:vote, voter: guest)

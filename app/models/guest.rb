@@ -30,17 +30,15 @@ class Guest < ActiveRecord::Base
   end
 
   def vote_for_suggestion(suggestion)
-    votes.
-      where(
-        deleted_at: nil,
-        suggestion_id: suggestion.id,
-        suggestion_type: suggestion.class.name
-      ).
-      first
+    votes.where(
+      suggestion_id: suggestion.id,
+      suggestion_type: suggestion.class.name
+    ).first
   end
 
   def voted_for_suggestion?(suggestion)
-    vote_for_suggestion(suggestion).present?
+    vote = vote_for_suggestion(suggestion)
+    vote && vote.deleted_at == nil
   end
 
   def voted_for_event?(event)
