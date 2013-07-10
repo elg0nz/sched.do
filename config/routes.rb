@@ -1,6 +1,5 @@
 SchedDo::Application.routes.draw do
   get '/auth/yammer/callback' => 'sessions#create'
-  get '/auth/yammer/style.css' => 'users#show'
   get '/auth/yammer_staging/callback' => 'sessions#create'
   get '/dashboard' => 'dashboard#active_users'
   get 'polls' => 'users#show'
